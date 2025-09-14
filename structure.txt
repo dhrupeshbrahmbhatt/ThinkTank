@@ -1,0 +1,41 @@
+ThinkTank/
+├── BackEnd
+│   ├── .env
+│   ├── controllers
+│   │   ├── authController.js
+│   ├── middleware
+│   │   ├── auth.js
+│   ├── Models
+│   │   ├── user.js
+│   ├── package.json
+│   ├── repository
+│   │   ├── userRepository.js
+│   ├── routes
+│   │   ├── auth.js
+│   ├── server.js
+├── file.js
+├── fileTree.js
+├── FrontEnd
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── src
+│   │   ├── App.jsx
+│   │   ├── context
+│   │   │   ├── AuthContext.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages
+│   │   │   ├── home.jsx
+│   │   │   ├── signin.jsx
+│   │   │   ├── signup.jsx
+│   │   ├── services
+│   │   │   ├── api.js
+│   │   ├── styles
+│   │   │   ├── colors.md
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+├── LICENSE
