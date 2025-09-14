@@ -92,27 +92,35 @@ const Signin = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-bl from-secondary-snow to-primary-silver flex">
+        <div className="min-h-screen relative overflow-hidden flex">
+            {/* macOS Sonoma Evening Background */}
+            <div 
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat" 
+                style={{ 
+                    backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80')` 
+                }} 
+            />
+            <div className="fixed inset-0 bg-black/10" />
             {/* Left Form Section */}
             <motion.div 
-                className="flex-1 flex items-center justify-center px-8 lg:px-12"
+                className="flex-1 flex items-center justify-center px-8 lg:px-12 relative z-10"
                 variants={formVariants}
                 initial="hidden"
                 animate="visible"
             >
                 <div className="w-full max-w-md">
                     <motion.div 
-                        className="bg-white rounded-3xl shadow-apple-lg p-8 border border-gray-100"
+                        className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl"
                         whileHover={{ 
-                            boxShadow: "0 20px 60px rgba(0, 0, 0, 0.1)",
+                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
                             transition: { duration: 0.3 }
                         }}
                     >
                         <div className="text-center mb-8">
-                            <h2 className="text-3xl font-display font-bold text-primary-space-gray mb-2">
+                            <h2 className="text-3xl font-display font-bold text-white mb-2">
                                 Welcome Back
                             </h2>
-                            <p className="text-gray-600">Sign in to your account</p>
+                            <p className="text-white/80">Sign in to your account</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
@@ -121,7 +129,7 @@ const Signin = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-white mb-2">
                                     Email Address
                                 </label>
                                 <motion.input
@@ -131,14 +139,14 @@ const Signin = () => {
                                     onChange={handleInputChange}
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-apple-blue focus:border-transparent transition-all duration-200"
+                                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 text-white placeholder-white/60"
                                     placeholder="Enter your email"
                                     whileFocus={{ 
                                         scale: 1.02,
                                         transition: { duration: 0.2 }
                                     }}
                                     animate={{
-                                        borderColor: focusedField === 'email' ? '#007AFF' : '#E5E5E7'
+                                        borderColor: focusedField === 'email' ? 'rgba(96, 165, 250, 0.8)' : 'rgba(255, 255, 255, 0.2)'
                                     }}
                                 />
                             </motion.div>
@@ -148,7 +156,7 @@ const Signin = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.4, duration: 0.5 }}
                             >
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-white mb-2">
                                     Password
                                 </label>
                                 <motion.input
@@ -158,14 +166,14 @@ const Signin = () => {
                                     onChange={handleInputChange}
                                     onFocus={() => setFocusedField('password')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-apple-blue focus:border-transparent transition-all duration-200"
+                                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 text-white placeholder-white/60"
                                     placeholder="Enter your password"
                                     whileFocus={{ 
                                         scale: 1.02,
                                         transition: { duration: 0.2 }
                                     }}
                                     animate={{
-                                        borderColor: focusedField === 'password' ? '#007AFF' : '#E5E5E7'
+                                        borderColor: focusedField === 'password' ? 'rgba(96, 165, 250, 0.8)' : 'rgba(255, 255, 255, 0.2)'
                                     }}
                                 />
                             </motion.div>
@@ -179,16 +187,16 @@ const Signin = () => {
                                 <label className="flex items-center">
                                     <motion.input 
                                         type="checkbox" 
-                                        className="rounded border-gray-300 text-accent-apple-blue focus:ring-accent-apple-blue"
+                                        className="rounded border-white/30 text-blue-400 focus:ring-blue-400 bg-white/10"
                                         whileTap={{ scale: 0.95 }}
                                     />
-                                    <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                                    <span className="ml-2 text-sm text-white/80">Remember me</span>
                                 </label>
                                 <motion.a 
                                     href="#" 
-                                    className="text-sm text-accent-apple-blue font-semibold"
+                                    className="text-sm text-blue-300 font-semibold"
                                     whileHover={{ 
-                                        color: '#0066CC',
+                                        color: '#93C5FD',
                                         transition: { duration: 0.2 }
                                     }}
                                 >
@@ -198,7 +206,7 @@ const Signin = () => {
 
                             {error && (
                                 <motion.div
-                                    className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm"
+                                    className="bg-red-500/20 backdrop-blur-sm border border-red-400/30 text-red-200 px-4 py-3 rounded-xl text-sm"
                                     initial={{ opacity: 0, y: -10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3 }}
@@ -212,13 +220,13 @@ const Signin = () => {
                                 disabled={isSubmitting}
                                 className={`w-full py-3 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-200 ${
                                     isSubmitting 
-                                        ? 'bg-gray-400 cursor-not-allowed' 
-                                        : 'bg-accent-apple-blue text-white'
+                                        ? 'bg-white/20 backdrop-blur-sm cursor-not-allowed text-white/60' 
+                                        : 'bg-blue-500/80 backdrop-blur-sm text-white border border-blue-400/30'
                                 }`}
                                 whileHover={!isSubmitting ? { 
-                                    backgroundColor: '#0066CC',
+                                    backgroundColor: 'rgba(59, 130, 246, 0.9)',
                                     scale: 1.02,
-                                    boxShadow: '0 10px 30px rgba(0, 122, 255, 0.3)'
+                                    boxShadow: '0 10px 30px rgba(59, 130, 246, 0.3)'
                                 } : {}}
                                 whileTap={!isSubmitting ? { 
                                     scale: 0.98,
@@ -245,20 +253,20 @@ const Signin = () => {
                                 transition={{ delay: 0.7, duration: 0.5 }}
                             >
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-200"></div>
+                                    <div className="w-full border-t border-white/20"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                                    <span className="px-2 bg-white/10 backdrop-blur-sm text-white/80 rounded-lg">Or continue with</span>
                                 </div>
                             </motion.div>
 
                             <motion.button
                                 type="button"
-                                className="w-full bg-secondary-snow border border-gray-200 text-primary-space-gray py-3 px-6 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2"
+                                className="w-full bg-white/10 backdrop-blur-sm border border-white/20 text-white py-3 px-6 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2"
                                 whileHover={{ 
-                                    backgroundColor: '#F5F5F7',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
                                     scale: 1.02,
-                                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                                    boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
                                 }}
                                 whileTap={{ 
                                     scale: 0.98,
@@ -284,13 +292,13 @@ const Signin = () => {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.9, duration: 0.5 }}
                         >
-                            <p className="text-gray-600">
+                            <p className="text-white/80">
                                 Don't have an account?{' '}
                                 <motion.a 
                                     href="/signup" 
-                                    className="text-accent-apple-blue font-semibold"
+                                    className="text-blue-300 font-semibold"
                                     whileHover={{ 
-                                        color: '#0066CC',
+                                        color: '#93C5FD',
                                         transition: { duration: 0.2 }
                                     }}
                                 >
@@ -304,12 +312,12 @@ const Signin = () => {
 
             {/* Right Content Section */}
             <motion.div 
-                className="flex-1 flex items-center justify-center px-12 lg:px-16 bg-gradient-to-br from-primary-space-gray to-secondary-charcoal"
+                className="flex-1 flex items-center justify-center px-12 lg:px-16 relative z-10"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                <div className="max-w-lg text-white">
+                <div className="max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
                     <motion.div variants={itemVariants}>
                         <h1 className="text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
                             Welcome to
@@ -367,10 +375,10 @@ const Signin = () => {
                     </motion.div>
 
                     <motion.div 
-                        className="mt-12 p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20"
+                        className="mt-12 p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
                         variants={itemVariants}
                         whileHover={{ 
-                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             transition: { duration: 0.3 }
                         }}
                     >
