@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import githubRoutes from "./routes/github.js";
+import linkedinScraperRoutes from "./routes/linkedinScraper.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,6 +48,7 @@ mongoose
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/github", githubRoutes);
+app.use("/api/linkedin-scraper", linkedinScraperRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -66,6 +68,8 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     endpoints: {
       auth: "/api/auth",
+      github: "/api/github",
+      "linkedin-scraper": "/api/linkedin-scraper",
       health: "/api/health",
     },
   });
