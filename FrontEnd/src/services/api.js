@@ -11,18 +11,21 @@ const api = axios.create({
 
 // Token management
 const TOKEN_KEY = 'thinktank_access_token';
-const REFRESH_TOKEN_KEY = 'thinktank_refresh_token';
+const USER_ID_KEY = 'thinktank_user_id';
 
 export const tokenManager = {
     getAccessToken: () => localStorage.getItem(TOKEN_KEY),
-    getRefreshToken: () => localStorage.getItem(REFRESH_TOKEN_KEY),
-    setTokens: (accessToken, refreshToken) => {
+    getUserId: () => localStorage.getItem(USER_ID_KEY),
+    setTokenAndUserId: (accessToken, userId) => {
         localStorage.setItem(TOKEN_KEY, accessToken);
-        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+        localStorage.setItem(USER_ID_KEY, userId);
+        console.log('💾 Access Token saved:', accessToken);
+        console.log('💾 User ID saved:', userId);
     },
     clearTokens: () => {
         localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(REFRESH_TOKEN_KEY);
+        localStorage.removeItem(USER_ID_KEY);
+        console.log('🗑️ Tokens and User ID cleared from localStorage');
     },
 };
 
@@ -40,40 +43,15 @@ api.interceptors.request.use(
     }
 );
 
-// Response interceptor to handle token refresh
+// Response interceptor to handle unauthorized requests
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const originalRequest = error.config;
-
-        if (error.response?.status === 401 && 
-            error.response?.data?.code === 'TOKEN_EXPIRED' && 
-            !originalRequest._retry) {
-            
-            originalRequest._retry = true;
-
-            try {
-                const refreshToken = tokenManager.getRefreshToken();
-                if (!refreshToken) {
-                    throw new Error('No refresh token available');
-                }
-
-                const response = await axios.post('http://localhost:3000/api/auth/refresh', {
-                    refreshToken
-                });
-
-                const { accessToken, refreshToken: newRefreshToken } = response.data.data.tokens;
-                tokenManager.setTokens(accessToken, newRefreshToken);
-
-                // Retry the original request with new token
-                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                return api(originalRequest);
-            } catch (refreshError) {
-                // Refresh failed, redirect to login
-                tokenManager.clearTokens();
-                window.location.href = '/signin';
-                return Promise.reject(refreshError);
-            }
+        if (error.response?.status === 401) {
+            console.log('❌ Unauthorized request - redirecting to signin');
+            // Clear tokens and redirect to login
+            tokenManager.clearTokens();
+            window.location.href = '/signin';
         }
 
         return Promise.reject(error);
@@ -89,11 +67,11 @@ export const authAPI = {
             console.log('📝 Registration API Response:', response.data);
             
             if (response.data.success) {
-                const { accessToken, refreshToken } = response.data.data.tokens;
+                const { accessToken } = response.data.data.tokens;
+                const { id: userId } = response.data.data.user;
                 console.log('🔑 Access Token (Register):', accessToken);
-                console.log('🔄 Refresh Token (Register):', refreshToken);
-                tokenManager.setTokens(accessToken, refreshToken);
-                console.log('💾 Tokens saved to localStorage');
+                console.log('👤 User ID (Register):', userId);
+                tokenManager.setTokenAndUserId(accessToken, userId);
             }
             
             return response.data;
@@ -110,11 +88,11 @@ export const authAPI = {
             console.log('🔐 Login API Response:', response.data);
             
             if (response.data.success) {
-                const { accessToken, refreshToken } = response.data.data.tokens;
+                const { accessToken } = response.data.data.tokens;
+                const { id: userId } = response.data.data.user;
                 console.log('🔑 Access Token (Login):', accessToken);
-                console.log('🔄 Refresh Token (Login):', refreshToken);
-                tokenManager.setTokens(accessToken, refreshToken);
-                console.log('💾 Tokens saved to localStorage');
+                console.log('👤 User ID (Login):', userId);
+                tokenManager.setTokenAndUserId(accessToken, userId);
             }
             
             return response.data;
@@ -127,10 +105,7 @@ export const authAPI = {
     // Logout user
     logout: async () => {
         try {
-            const refreshToken = tokenManager.getRefreshToken();
-            if (refreshToken) {
-                await api.post('/auth/logout', { refreshToken });
-            }
+            await api.post('/auth/logout');
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
