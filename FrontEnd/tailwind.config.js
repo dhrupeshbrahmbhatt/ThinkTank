@@ -105,6 +105,24 @@ export default {
         'apple': '0 4px 20px rgba(0, 0, 0, 0.1)',
         'apple-lg': '0 10px 40px rgba(0, 0, 0, 0.15)',
       },
+      perspective: {
+        '1000': '1000px',
+        '1500': '1500px',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'breathe': 'breathe 4s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.02)' },
+        },
+      },
     },
   },
   plugins: [],
