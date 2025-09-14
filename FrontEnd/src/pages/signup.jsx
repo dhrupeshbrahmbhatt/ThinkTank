@@ -58,8 +58,9 @@ const Signup = () => {
             });
 
             if (result.success) {
-                // Registration successful, redirect to home
-                navigate("/");
+                // Registration successful, redirect to dashboard
+                console.log('✅ Registration successful, redirecting to dashboard');
+                navigate("/dashboard");
             } else {
                 setError(result.message || "Registration failed");
             }

@@ -362,7 +362,7 @@ const Home = () => {
                                 <h3 className="text-2xl font-bold text-white mb-4">
                                     Real-time Dashboard
                                 </h3>
-                                <p className="text-gray-600 mb-6">
+                                <p className="text-white-600 mb-6">
                                     Monitor your portfolio's performance with live analytics, 
                                     visitor tracking, and detailed engagement metrics.
                                 </p>
@@ -382,7 +382,7 @@ const Home = () => {
                                             viewport={{ once: true }}
                                         >
                                             <div className="w-2 h-2 bg-accent-apple-blue rounded-full"></div>
-                                            <span className="text-gray-700">{feature}</span>
+                                            <span className="text-gray-800">{feature}</span>
                                         </motion.div>
                                     ))}
                                 </div>

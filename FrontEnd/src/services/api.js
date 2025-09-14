@@ -86,14 +86,19 @@ export const authAPI = {
     register: async (userData) => {
         try {
             const response = await api.post('/auth/register', userData);
+            console.log('📝 Registration API Response:', response.data);
             
             if (response.data.success) {
                 const { accessToken, refreshToken } = response.data.data.tokens;
+                console.log('🔑 Access Token (Register):', accessToken);
+                console.log('🔄 Refresh Token (Register):', refreshToken);
                 tokenManager.setTokens(accessToken, refreshToken);
+                console.log('💾 Tokens saved to localStorage');
             }
             
             return response.data;
         } catch (error) {
+            console.error('❌ Registration API Error:', error);
             throw error.response?.data || { message: 'Registration failed' };
         }
     },
@@ -102,14 +107,19 @@ export const authAPI = {
     login: async (credentials) => {
         try {
             const response = await api.post('/auth/login', credentials);
+            console.log('🔐 Login API Response:', response.data);
             
             if (response.data.success) {
                 const { accessToken, refreshToken } = response.data.data.tokens;
+                console.log('🔑 Access Token (Login):', accessToken);
+                console.log('🔄 Refresh Token (Login):', refreshToken);
                 tokenManager.setTokens(accessToken, refreshToken);
+                console.log('💾 Tokens saved to localStorage');
             }
             
             return response.data;
         } catch (error) {
+            console.error('❌ Login API Error:', error);
             throw error.response?.data || { message: 'Login failed' };
         }
     },

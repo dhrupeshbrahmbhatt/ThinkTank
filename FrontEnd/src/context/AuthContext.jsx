@@ -21,15 +21,20 @@ export const AuthProvider = ({ children }) => {
         const initializeAuth = async () => {
             try {
                 const token = tokenManager.getAccessToken();
+                console.log('🔑 Auth Token:', token);
+                
                 if (token) {
                     const response = await authAPI.getProfile();
+                    console.log('👤 Profile Response:', response);
+                    
                     if (response.success) {
+                        console.log('✅ User Data:', response.data.user);
                         setUser(response.data.user);
                         setIsAuthenticated(true);
                     }
                 }
             } catch (error) {
-                console.error('Auth initialization error:', error);
+                console.error('❌ Auth initialization error:', error);
                 tokenManager.clearTokens();
             } finally {
                 setLoading(false);
@@ -42,16 +47,22 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             setLoading(true);
+            console.log('🔐 Login Attempt:', credentials);
+            
             const response = await authAPI.login(credentials);
+            console.log('🔄 Login Response:', response);
             
             if (response.success) {
+                console.log('✅ Login Success - User Data:', response.data.user);
                 setUser(response.data.user);
                 setIsAuthenticated(true);
                 return { success: true, user: response.data.user };
             }
             
+            console.log('❌ Login Failed:', response.message);
             return { success: false, message: response.message };
         } catch (error) {
+            console.error('❌ Login Error:', error);
             return { 
                 success: false, 
                 message: error.message || 'Login failed' 
@@ -64,16 +75,22 @@ export const AuthProvider = ({ children }) => {
     const register = async (userData) => {
         try {
             setLoading(true);
+            console.log('📝 Registration Attempt:', userData);
+            
             const response = await authAPI.register(userData);
+            console.log('📋 Registration Response:', response);
             
             if (response.success) {
+                console.log('✅ Registration Success - User Data:', response.data.user);
                 setUser(response.data.user);
                 setIsAuthenticated(true);
                 return { success: true, user: response.data.user };
             }
             
+            console.log('❌ Registration Failed:', response.message);
             return { success: false, message: response.message };
         } catch (error) {
+            console.error('❌ Registration Error:', error);
             return { 
                 success: false, 
                 message: error.message || 'Registration failed' 

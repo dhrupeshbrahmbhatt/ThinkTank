@@ -44,8 +44,9 @@ const Signin = () => {
             });
 
             if (result.success) {
-                // Login successful, redirect to home
-                navigate("/");
+                // Login successful, redirect to dashboard
+                console.log('✅ Login successful, redirecting to dashboard');
+                navigate("/dashboard");
             } else {
                 setError(result.message || "Login failed");
             }
