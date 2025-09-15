@@ -113,7 +113,13 @@ const HeroSection = ({ mousePosition }) => {
                         transition={{ duration: 0.2 }}
                         className="px-8 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors duration-300"
                     >
-                        View My Work
+                        <EditableText
+                            value="View My Work"
+                            onChange={(value) => updatePersonal('cta1', value)}
+                            isEditMode={isEditMode}
+                            className="inline-block"
+                            placeholder="Button 1 text"
+                        />
                     </motion.button>
                     <motion.button
                         whileHover={{ 
@@ -124,7 +130,13 @@ const HeroSection = ({ mousePosition }) => {
                         transition={{ duration: 0.2 }}
                         className="px-8 py-3 border border-gray-300 text-gray-700 rounded-full font-medium hover:border-blue-500 transition-colors duration-300"
                     >
-                        Get In Touch
+                        <EditableText
+                            value="Get In Touch"
+                            onChange={(value) => updatePersonal('cta2', value)}
+                            isEditMode={isEditMode}
+                            className="inline-block"
+                            placeholder="Button 2 text"
+                        />
                     </motion.button>
                 </motion.div>
             </motion.div>

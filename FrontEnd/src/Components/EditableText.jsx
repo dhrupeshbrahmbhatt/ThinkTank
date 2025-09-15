@@ -6,15 +6,13 @@ const EditableText = ({
     onChange, 
     isEditMode, 
     className = "", 
-    placeholder = "Double-tap to edit",
+    placeholder = "Click to edit",
     multiline = false,
     maxLength = null
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempValue, setTempValue] = useState(value);
-    const [tapCount, setTapCount] = useState(0);
     const inputRef = useRef(null);
-    const tapTimeoutRef = useRef(null);
 
     useEffect(() => {
         setTempValue(value);
@@ -32,30 +30,10 @@ const EditableText = ({
     const handleClick = () => {
         if (!isEditMode) return;
         
-        setTapCount(prev => prev + 1);
-        
-        // Clear existing timeout
-        if (tapTimeoutRef.current) {
-            clearTimeout(tapTimeoutRef.current);
-        }
-        
-        // Set new timeout
-        tapTimeoutRef.current = setTimeout(() => {
-            if (tapCount + 1 >= 2) {
-                setIsEditing(true);
-            }
-            setTapCount(0);
-        }, 300); // 300ms window for double tap
+        // Single click to edit for better UX
+        setIsEditing(true);
     };
 
-    // Cleanup timeout on unmount
-    useEffect(() => {
-        return () => {
-            if (tapTimeoutRef.current) {
-                clearTimeout(tapTimeoutRef.current);
-            }
-        };
-    }, []);
 
     const handleSave = () => {
         onChange(tempValue);
@@ -92,10 +70,11 @@ const EditableText = ({
                 onChange={(e) => setTempValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
-                className={`${className} bg-white border-2 border-blue-500 rounded px-2 py-1 outline-none resize-none`}
+                className={`${className} bg-white border-2 border-blue-500 rounded px-2 py-1 outline-none resize-none shadow-lg`}
                 placeholder={placeholder}
                 maxLength={maxLength}
                 rows={multiline ? 3 : undefined}
+                style={{ minWidth: '200px' }}
             />
         );
     }
@@ -103,9 +82,12 @@ const EditableText = ({
     return (
         <motion.div
             onClick={handleClick}
-            className={`${className} ${isEditMode ? 'cursor-pointer hover:bg-blue-50 rounded px-2 py-1 transition-colors duration-200' : ''}`}
-            whileHover={isEditMode ? { backgroundColor: "rgba(59, 130, 246, 0.05)" } : {}}
-            title={isEditMode ? "Double-tap to edit" : ""}
+            className={`${className} ${isEditMode ? 'cursor-pointer hover:bg-blue-50 rounded px-2 py-1 transition-colors duration-200 border border-transparent hover:border-blue-200' : ''}`}
+            whileHover={isEditMode ? { 
+                backgroundColor: "rgba(59, 130, 246, 0.05)",
+                scale: 1.02
+            } : {}}
+            title={isEditMode ? "Click to edit" : ""}
         >
             {value || placeholder}
         </motion.div>

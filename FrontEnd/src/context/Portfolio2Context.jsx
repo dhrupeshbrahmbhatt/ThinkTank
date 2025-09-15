@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const Portfolio2Context = createContext();
 
@@ -12,12 +12,16 @@ export const usePortfolio2 = () => {
 
 export const Portfolio2Provider = ({ children }) => {
     const [isEditMode, setIsEditMode] = useState(false);
-    const [portfolioData, setPortfolioData] = useState({
+    
+    // Default portfolio data
+    const defaultPortfolioData = {
         personal: {
             name: "Alex Chen",
             title: "Frontend Developer & UI Designer",
             greeting: "Hello, I'm",
-            description: "Crafting digital experiences with precision, elegance, and attention to detail. Passionate about creating interfaces that are both beautiful and functional."
+            description: "Crafting digital experiences with precision, elegance, and attention to detail. Passionate about creating interfaces that are both beautiful and functional.",
+            cta1: "View My Work",
+            cta2: "Get In Touch"
         },
         about: {
             subtitle: "Passionate about creating",
@@ -98,7 +102,27 @@ export const Portfolio2Provider = ({ children }) => {
                 { name: "Dribbble", icon: "🏀", href: "#" }
             ]
         }
+    };
+
+    // Load data from localStorage on component mount
+    const [portfolioData, setPortfolioData] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('portfolio2Data');
+            return savedData ? JSON.parse(savedData) : defaultPortfolioData;
+        } catch (error) {
+            console.error('Error loading portfolio data from localStorage:', error);
+            return defaultPortfolioData;
+        }
     });
+
+    // Save data to localStorage whenever portfolioData changes
+    useEffect(() => {
+        try {
+            localStorage.setItem('portfolio2Data', JSON.stringify(portfolioData));
+        } catch (error) {
+            console.error('Error saving portfolio data to localStorage:', error);
+        }
+    }, [portfolioData]);
 
     const updatePersonal = (field, value) => {
         setPortfolioData(prev => ({
@@ -252,12 +276,23 @@ export const Portfolio2Provider = ({ children }) => {
         }
     };
 
+    const resetToDefault = () => {
+        setPortfolioData(defaultPortfolioData);
+    };
+
+    const clearAllData = () => {
+        localStorage.removeItem('portfolio2Data');
+        setPortfolioData(defaultPortfolioData);
+    };
+
     const value = {
         portfolioData,
         isEditMode,
         toggleEditMode,
         exportData,
         importData,
+        resetToDefault,
+        clearAllData,
         updatePersonal,
         updateAbout,
         updateAboutParagraph,
